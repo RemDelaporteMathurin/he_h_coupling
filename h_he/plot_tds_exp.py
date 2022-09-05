@@ -61,7 +61,9 @@ for i, ind in enumerate(tds_indices):
     plt.sca(axs[i])
     indices = np.where(tds_he[i][0] > 800)
     plt.plot(tds_he[i][0][indices], tds_he[i][1][indices], color=yellow_he)
-    plt.fill_between(tds_he[i][0][indices], 0, tds_he[i][1][indices], color=yellow_he, alpha=0.5)
+    plt.fill_between(
+        tds_he[i][0][indices], 0, tds_he[i][1][indices], color=yellow_he, alpha=0.5
+    )
     # plt.yscale("log")
     plt.ylim(0, 2e17)
 
