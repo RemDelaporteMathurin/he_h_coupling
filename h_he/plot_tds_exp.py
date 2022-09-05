@@ -26,25 +26,42 @@ des5 = data_he[:, 11]
 
 data_d_1 = np.genfromtxt("1st I-TDS D HF.dat", delimiter="\t", skip_header=3)
 data_d_2 = np.genfromtxt("2nd I-TDS D HF.dat", delimiter="\t", skip_header=3)
+data_d_3 = np.genfromtxt("3rd I-TDS D HF.dat", delimiter="\t", skip_header=3)
+data_d_4 = np.genfromtxt("4th I-TDS D HF.dat", delimiter="\t", skip_header=3)
 data_d_5 = np.genfromtxt("5th I-TDS D HF.dat", delimiter="\t", skip_header=3)
 
 tds_d = [
     [data_d_1[:, 0], data_d_1[:, 1]],
     [data_d_2[:, 0], data_d_2[:, 1]],
+    [data_d_3[:, 0], data_d_3[:, 1]],
+    [data_d_4[:, 0], data_d_4[:, 1]],
     [data_d_5[:, 0], data_d_5[:, 1]],
 ]
 
-tds_he = [[T1, des1], [T2, des2], [T5, des5]]
+tds_he = [[T1, des1], [T2, des2], [T3, des3], [T4, des4], [T5, des5]]
 
-nb_tds = 3
 
-labels = ["1st TDS", "2nd TDS", "5th TDS"]
-fig, axs = plt.subplots(nb_tds, ncols=1, sharex="col", sharey="row")
+tds_indices = [1, 2, 3, 4, 5]
+labels = []
+for ind in tds_indices:
+    if ind == 1:
+        label = "1st TDS"
+    elif ind == 2:
+        label = "2nd TDS"
+    elif ind == 3:
+        label = "3rd TDS"
+    else:
+        label = "{}th TDS".format(ind)
 
-for i in range(nb_tds):
+    labels.append(label)
+
+fig, axs = plt.subplots(len(tds_indices), ncols=1, sharex="col", sharey="row")
+
+for i, ind in enumerate(tds_indices):
     plt.sca(axs[i])
-    plt.plot(tds_he[i][0], tds_he[i][1], color=yellow_he)
-    plt.fill_between(tds_he[i][0], 0, tds_he[i][1], color=yellow_he, alpha=0.5)
+    indices = np.where(tds_he[i][0] > 800)
+    plt.plot(tds_he[i][0][indices], tds_he[i][1][indices], color=yellow_he)
+    plt.fill_between(tds_he[i][0][indices], 0, tds_he[i][1][indices], color=yellow_he, alpha=0.5)
     # plt.yscale("log")
     plt.ylim(0, 2e17)
 
